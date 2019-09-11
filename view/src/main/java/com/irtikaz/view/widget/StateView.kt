@@ -6,7 +6,7 @@ import android.view.View
 interface StateView {
     fun showContent()
     fun showError(title: String, message: String, buttonText: String, listener: View.OnClickListener)
-    fun showErrorWithImage(img: Drawable, message: String, buttonText: String, listener: View.OnClickListener)
+    fun showErrorWithImage(img: Drawable, title: String, message: String, buttonText: String, listener: View.OnClickListener)
     fun showLoading()
     fun currentState(): String
 }

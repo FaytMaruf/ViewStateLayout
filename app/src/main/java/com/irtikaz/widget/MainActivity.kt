@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
         btn_content.setOnClickListener { layout_viewstate.showContent() }
 
         btn_error.setOnClickListener {
-            layout_viewstate.showError("Tidak ada Jaringan","Silakan cek kembali koneksi anda.", "Coba Lagi", listenerContent)
+            val img = getDrawable(R.drawable.ic_eform_riwayat)
+            layout_viewstate.showErrorWithImage(img,"Tidak ada Jaringan","Silakan cek kembali koneksi anda.", "Coba Lagi", listenerContent)
         }
     }
 }

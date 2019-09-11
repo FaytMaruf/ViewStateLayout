@@ -44,8 +44,10 @@ class ViewStateLayout
     private lateinit var btnError: MaterialButton
     private lateinit var txtErrorTitle: TextView
     private lateinit var txtErrorMessage: TextView
+    private lateinit var imgError: ImageView
 
     private var state = STATE_CONTENT
+    private lateinit var imgDrawable: Drawable
 
 
     override fun showContent() {
@@ -58,9 +60,10 @@ class ViewStateLayout
 
     }
 
-    override fun showErrorWithImage(img: Drawable, message: String, buttonText: String,
+    override fun showErrorWithImage(img: Drawable, title: String, message: String, buttonText: String,
                                     listener: View.OnClickListener) {
-        setState(STATE_ERROR, null, null, null, listener)
+        imgDrawable = img
+        setState(STATE_ERROR, title, message, buttonText, listener)
     }
 
     override fun showLoading() {
@@ -85,7 +88,8 @@ class ViewStateLayout
             STATE_ERROR -> {
                 setContentVisibility(false, Collections.emptyList())
                 setupErrorView()
-
+                if(::imgDrawable.isInitialized)
+                    imgError.setImageDrawable(imgDrawable)
                 txtErrorTitle.text = title
                 txtErrorMessage.text = message
                 btnError.text = buttonText
@@ -140,6 +144,7 @@ class ViewStateLayout
             txtErrorTitle = view.txt_error_title
             txtErrorMessage = view.txt_error_msg
             btnError = view.btn_action
+            imgError = view.img_error
 
             errorLayout.tag = STATE_ERROR
 
