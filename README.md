@@ -28,7 +28,7 @@ viewstate_layout.showContent()
 //to show error without button
 val img = getDrawable(R.drawable.ic_eform_riwayat)
 layout_viewstate.showErrorWithImage(img!!,
-                getString(R.string.empty_fav),
-                getString(R.string.empty_fav_message),
+                getString(R.string.error_title),
+                getString(R.string.error_message),
                 null, null)
 ```
