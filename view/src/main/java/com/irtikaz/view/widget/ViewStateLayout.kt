@@ -54,14 +54,14 @@ class ViewStateLayout
         setState(STATE_CONTENT, null, null, null, null)
     }
 
-    override fun showError(title: String, message: String, buttonText: String,
-                           listener: View.OnClickListener) {
+    override fun showError(title: String, message: String, buttonText: String?,
+                           listener: View.OnClickListener?) {
         setState(STATE_ERROR, title, message, buttonText, listener)
 
     }
 
-    override fun showErrorWithImage(img: Drawable, title: String, message: String, buttonText: String,
-                                    listener: View.OnClickListener) {
+    override fun showErrorWithImage(img: Drawable, title: String, message: String, buttonText: String?,
+                                    listener: View.OnClickListener?) {
         imgDrawable = img
         setState(STATE_ERROR, title, message, buttonText, listener)
     }
@@ -92,8 +92,13 @@ class ViewStateLayout
                     imgError.setImageDrawable(imgDrawable)
                 txtErrorTitle.text = title
                 txtErrorMessage.text = message
-                btnError.text = buttonText
-                btnError.setOnClickListener(listener)
+
+                if(buttonText.isNullOrEmpty()){
+                    btnError.visibility = GONE
+                }else {
+                    btnError.text = buttonText
+                    btnError.setOnClickListener(listener)
+                }
             }
         }
     }
