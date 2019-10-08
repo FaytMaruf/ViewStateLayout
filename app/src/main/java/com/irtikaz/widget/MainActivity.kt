@@ -25,5 +25,9 @@ class MainActivity : AppCompatActivity() {
             val img = getDrawable(R.drawable.ic_eform_riwayat)
             layout_viewstate.showErrorWithImage(img,"Tidak ada Jaringan","Silakan cek kembali koneksi anda.", null, null)
         }
+
+        btn_custom.setOnClickListener {
+            layout_viewstate.customLoadingView = R.layout.custom_loading
+        }
     }
 }

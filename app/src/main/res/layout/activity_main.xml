@@ -27,6 +27,13 @@
             android:layout_toRightOf="@id/btn_error"
             android:id="@+id/btn_content"
             android:text="Content"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/medium"
+            android:layout_below="@id/btn_error"
+            android:id="@+id/btn_custom"
+            android:text="custom"/>
     <com.irtikaz.view.widget.ViewStateLayout
             android:id="@+id/layout_viewstate"
             android:layout_width="match_parent"

@@ -14,9 +14,10 @@ import kotlinx.android.synthetic.main.viewstate_loading.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
+
 class ViewStateLayout
-@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : FrameLayout(context, attrs, defStyleAttr), StateView{
+@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+    FrameLayout(context, attrs, defStyleAttr), StateView {
 
 
     companion object {
@@ -26,7 +27,8 @@ class ViewStateLayout
         private const val STATE_ERROR = "s_error"
     }
 
-    private var inflater: LayoutInflater = getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private var inflater: LayoutInflater =
+        getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     private lateinit var view: View
 
     //required views for content
@@ -49,19 +51,24 @@ class ViewStateLayout
     private var state = STATE_CONTENT
     private lateinit var imgDrawable: Drawable
 
+    var customLoadingView = 0
 
     override fun showContent() {
         setState(STATE_CONTENT, null, null, null, null)
     }
 
-    override fun showError(title: String, message: String, buttonText: String?,
-                           listener: View.OnClickListener?) {
+    override fun showError(
+        title: String, message: String, buttonText: String?,
+        listener: View.OnClickListener?
+    ) {
         setState(STATE_ERROR, title, message, buttonText, listener)
 
     }
 
-    override fun showErrorWithImage(img: Drawable, title: String, message: String, buttonText: String?,
-                                    listener: View.OnClickListener?) {
+    override fun showErrorWithImage(
+        img: Drawable, title: String, message: String, buttonText: String?,
+        listener: View.OnClickListener?
+    ) {
         imgDrawable = img
         setState(STATE_ERROR, title, message, buttonText, listener)
     }
@@ -70,7 +77,13 @@ class ViewStateLayout
         setState(STATE_LOADING, null, null, null, null)
     }
 
-    private fun setState(state: String, title: String?, message: String?, buttonText: String?, listener: View.OnClickListener?) {
+    private fun setState(
+        state: String,
+        title: String?,
+        message: String?,
+        buttonText: String?,
+        listener: View.OnClickListener?
+    ) {
 
         this.state = state
         hideAllViews()
@@ -88,14 +101,14 @@ class ViewStateLayout
             STATE_ERROR -> {
                 setContentVisibility(false, Collections.emptyList())
                 setupErrorView()
-                if(::imgDrawable.isInitialized)
+                if (::imgDrawable.isInitialized)
                     imgError.setImageDrawable(imgDrawable)
                 txtErrorTitle.text = title
                 txtErrorMessage.text = message
 
-                if(buttonText.isNullOrEmpty()){
+                if (buttonText.isNullOrEmpty()) {
                     btnError.visibility = GONE
-                }else {
+                } else {
                     btnError.text = buttonText
                     btnError.setOnClickListener(listener)
                 }
@@ -114,7 +127,8 @@ class ViewStateLayout
     override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
         super.addView(child, index, params)
         if (child?.tag == null || (child.tag != STATE_LOADING && child.tag != STATE_EMPTY &&
-                    child.tag != STATE_ERROR)) {
+                    child.tag != STATE_ERROR)
+        ) {
             contentViews.add(child!!)
         }
     }
@@ -125,14 +139,21 @@ class ViewStateLayout
 
     private fun setupLoadingView() {
         if (!::loadingLayout.isInitialized) {
-            view = inflater.inflate(R.layout.viewstate_loading, null)
-            loadingLayout = view.layout_loading
+            view =
+                if (customLoadingView != 0)
+                    inflater.inflate(customLoadingView, null)
+                else
+                    inflater.inflate(R.layout.viewstate_loading, null)
+
+            loadingLayout = view
             loadingLayout.tag = STATE_LOADING
 
-            val layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT).apply {
+            val layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            ).apply {
             }
-            if(view.parent == null) {
+            if (view.parent == null) {
                 addView(loadingLayout, layoutParams)
             }
 
@@ -153,15 +174,17 @@ class ViewStateLayout
 
             errorLayout.tag = STATE_ERROR
 
-            val layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT).apply {
+            val layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            ).apply {
             }
 
-            if(view.parent != null) {
+            if (view.parent != null) {
                 removeAllViews()
             }
 
-            if(view.parent == null) {
+            if (view.parent == null) {
                 addView(errorLayout, layoutParams)
             }
 
