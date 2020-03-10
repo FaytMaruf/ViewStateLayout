@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_custom.setOnClickListener {
-            layout_viewstate.customLoadingView = R.layout.custom_loading
+            layout_viewstate.customErrorView = R.layout.custom_error
+            layout_viewstate.showError()
         }
     }
 }

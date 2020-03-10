@@ -37,7 +37,7 @@
                 android:id="@+id/txt_error_msg"
                 style="@style/TextContent"
                 android:layout_below="@id/txt_error_title"
-                android:text="Anda telah berhasil mendaftar sebagai Nasabah BNI Syariah. Untuk selanjutnya silakan aktivasi akun anda"
+                tools:text="Anda telah berhasil mendaftar sebagai Nasabah BNI Syariah. Untuk selanjutnya silakan aktivasi akun anda"
                 android:gravity="center"
                 android:layout_marginStart="@dimen/medium"
                 android:layout_marginEnd="@dimen/medium"

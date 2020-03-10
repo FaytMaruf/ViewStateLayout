@@ -23,7 +23,7 @@ class ViewStateLayout
     companion object {
         private const val STATE_CONTENT = "s_content"
         private const val STATE_LOADING = "s_loading"
-        private const val STATE_EMPTY = "s_empty"
+        //private const val STATE_EMPTY = "s_empty"
         private const val STATE_ERROR = "s_error"
     }
 
@@ -52,9 +52,14 @@ class ViewStateLayout
     private lateinit var imgDrawable: Drawable
 
     var customLoadingView = 0
+    var customErrorView = 0
 
     override fun showContent() {
         setState(STATE_CONTENT, null, null, null, null)
+    }
+
+    override fun showError() {
+        setState(STATE_ERROR, null, null, null, null)
     }
 
     override fun showError(
@@ -96,21 +101,23 @@ class ViewStateLayout
                 setContentVisibility(false, Collections.emptyList())
                 setupLoadingView()
             }
-            STATE_EMPTY -> {
-            }
+            //STATE_EMPTY -> {}
             STATE_ERROR -> {
                 setContentVisibility(false, Collections.emptyList())
-                setupErrorView()
-                if (::imgDrawable.isInitialized)
-                    imgError.setImageDrawable(imgDrawable)
-                txtErrorTitle.text = title
-                txtErrorMessage.text = message
+                if (customErrorView != 0) setupErrorCustomView()
+                else {
+                    setupErrorView()
+                    if (::imgDrawable.isInitialized)
+                        imgError.setImageDrawable(imgDrawable)
+                    txtErrorTitle.text = title
+                    txtErrorMessage.text = message
 
-                if (buttonText.isNullOrEmpty()) {
-                    btnError.visibility = GONE
-                } else {
-                    btnError.text = buttonText
-                    btnError.setOnClickListener(listener)
+                    if (buttonText.isNullOrEmpty()) {
+                        btnError.visibility = GONE
+                    } else {
+                        btnError.text = buttonText
+                        btnError.setOnClickListener(listener)
+                    }
                 }
             }
         }
@@ -126,7 +133,7 @@ class ViewStateLayout
 
     override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
         super.addView(child, index, params)
-        if (child?.tag == null || (child.tag != STATE_LOADING && child.tag != STATE_EMPTY &&
+        if (child?.tag == null || (child.tag != STATE_LOADING && /*child.tag != STATE_EMPTY &&*/
                     child.tag != STATE_ERROR)
         ) {
             contentViews.add(child!!)
@@ -159,6 +166,51 @@ class ViewStateLayout
 
         } else {
             loadingLayout.visibility = VISIBLE
+        }
+    }
+
+    private fun setupErrorCustomView() {
+        if (!::errorLayout.isInitialized) {
+            view = inflater.inflate(customErrorView, null)
+            errorLayout = view
+            errorLayout.tag = STATE_ERROR
+
+            val layoutParams = FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            ).apply {
+            }
+
+            if (view.parent != null) {
+                removeAllViews()
+            }
+
+            if (view.parent == null) {
+                addView(errorLayout, layoutParams)
+            }
+
+
+        } else {
+            if(errorLayout.id != customErrorView){
+                view = inflater.inflate(customErrorView, null)
+                errorLayout = view
+                errorLayout.tag = STATE_ERROR
+
+                val layoutParams = FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                ).apply {
+                }
+
+                if (view.parent != null) {
+                    removeAllViews()
+                }
+
+                if (view.parent == null) {
+                    addView(errorLayout, layoutParams)
+                }
+            }
+            errorLayout.visibility = VISIBLE
         }
     }
 
