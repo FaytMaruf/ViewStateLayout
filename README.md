@@ -32,3 +32,8 @@ layout_viewstate.showErrorWithImage(img!!,
                 getString(R.string.error_message),
                 null, null)
 ```
+customize loading view
+
+```
+layout_viewstate.customLoadingView = R.layout.your_loading_view
+```
