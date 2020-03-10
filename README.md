@@ -2,7 +2,7 @@
 layout view that can handle several state like loading, empty state and error state
 
 ```
-implementation 'com.github.FaytMaruf:ViewStateLayout:1.0.2'
+implementation 'com.github.FaytMaruf:ViewStateLayout:1.0.4'
 ```
 ### Usage
 in your xml
@@ -36,4 +36,11 @@ customize loading view
 
 ```
 layout_viewstate.customLoadingView = R.layout.your_loading_view
+```
+
+customize error view
+
+```
+layout_viewstate.customErrorView = R.layout.your_custom_error
+layout_viewstate.showError()
 ```
